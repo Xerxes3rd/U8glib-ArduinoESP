@@ -50,6 +50,8 @@ typedef unsigned char uint8_t;
 typedef signed char int8_t;
 typedef unsigned short uint16_t;
 typedef signed short int16_t;
+#elif defined(__XTENSA__)
+#include <c_types.h>
 #else
 #include <stdint.h>
 #endif
@@ -86,7 +88,8 @@ extern "C" {
 #  endif
 #  if defined(__XTENSA__)
 //#    define U8G_FONT_SECTION(name) U8G_SECTION(".irom.text." name)
-#    define U8G_FONT_SECTION(name) U8G_SECTION(".irom0.text" )
+//#    define U8G_FONT_SECTION(name) U8G_SECTION(".irom0.text" )
+#    define U8G_FONT_SECTION(name)
 #  endif
 #else
 #  define U8G_NOINLINE
@@ -124,15 +127,14 @@ typedef uint8_t PROGMEM u8g_pgm_uint8_t;
 typedef uint8_t u8g_fntpgm_uint8_t;
 #define u8g_pgm_read(adr) pgm_read_byte_near(adr)
 #define U8G_PSTR(s) ((u8g_pgm_uint8_t *)PSTR(s))
-#endif
 
-#if defined(__XTENSA__)
-#  ifndef PROGMEM
-#    define PROGMEM __attribute__ ((section (".irom0.text")))
-#  endif
-#  define U8G_PROGMEM PROGMEM
-typedef uint8_t u8g_pgm_uint8_t;
-typedef uint8_t u8g_fntpgm_uint8_t;
+#elif defined(__XTENSA__)
+#  define U8G_PROGMEM
+#ifndef PROGMEM
+#  define PROGMEM
+#endif
+   typedef uint8_t u8g_pgm_uint8_t;
+   typedef uint8_t u8g_fntpgm_uint8_t;
 #  define u8g_pgm_read(adr) (*(const u8g_pgm_uint8_t *)(adr)) 
 #  define U8G_PSTR(s) ((u8g_pgm_uint8_t *)(s))
 #endif
@@ -767,6 +769,10 @@ defined(__18CXX) || defined(__PIC32MX)
 #if defined(__AVR__)
 #define U8G_COM_HW_SPI u8g_com_atmega_hw_spi_fn
 #define U8G_COM_ST7920_HW_SPI u8g_com_atmega_st7920_hw_spi_fn
+#endif
+#if defined(__XTENSA__)
+#define U8G_COM_HW_SPI u8g_com_null_fn
+#define U8G_COM_ST7920_HW_SPI u8g_com_null_fn
 #endif
 #endif
 #ifndef U8G_COM_HW_SPI

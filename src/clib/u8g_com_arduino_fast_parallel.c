@@ -92,6 +92,10 @@
 /* CHIPKIT PIC32 */
 static volatile uint32_t *u8g_data_port[8];
 static uint32_t u8g_data_mask[8];
+#elif defined (__XTENSA__)
+/* ESP8266 */
+static volatile uint32_t *u8g_data_port[8];
+static uint32_t u8g_data_mask[8];
 #else
 static volatile uint8_t *u8g_data_port[8];
 static uint8_t u8g_data_mask[8];
