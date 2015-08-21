@@ -611,6 +611,46 @@ uint8_t u8g_i2c_wait(uint8_t mask, uint8_t pos)
   return 1;
 }
 
+#elif defined(__XTENSA__)
+
+#define I2C_SLA         0x3c
+
+void u8g_i2c_init(uint8_t options) {
+   u8g_i2c_clear_error();
+   u8g_i2c_opt = options;
+   twi_init(4, 5);
+   /*
+   if (wiringPiSetup() == -1) {
+      printf("wiringPi-Error\n");
+      exit(1);
+   }
+
+   fd = wiringPiI2CSetup(I2C_SLA);
+   if (fd < 0) {
+      printf ("Unable to open I2C device 0: %s\n", strerror (errno)) ;
+      exit (1) ;
+   }
+   */
+   //u8g_SetPIOutput(u8g, U8G_PI_RESET);
+   //u8g_SetPIOutput(u8g, U8G_PI_A0);
+}
+uint8_t u8g_i2c_start(uint8_t sla) {
+   return 1;
+}
+
+void u8g_i2c_stop(void) {
+	twi_stop();
+}
+
+uint8_t u8g_i2c_send_byte(uint8_t data) {
+	digitalWrite(16, false);
+	twi_write_byte(data);
+	digitalWrite(16, true);
+   //wiringPiI2CWriteReg8(fd, i2cMode, data);
+
+   return 1;
+}
+
 #else
 
 /* empty interface */
@@ -640,4 +680,3 @@ void u8g_i2c_stop(void)
 
 
 #endif
-

@@ -72,7 +72,7 @@
 #endif
 
 
-#if defined(__PIC32MX)
+#if defined(__PIC32MX) || defined(__XTENSA__)
 /* CHIPKIT PIC32 */
 static volatile uint32_t *u8g_output_data_port[8];
 static volatile uint32_t *u8g_input_data_port[8];
