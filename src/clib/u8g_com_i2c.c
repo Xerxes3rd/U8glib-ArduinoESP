@@ -643,9 +643,7 @@ void u8g_i2c_stop(void) {
 }
 
 uint8_t u8g_i2c_send_byte(uint8_t data) {
-	digitalWrite(16, false);
 	twi_write_byte(data);
-	digitalWrite(16, true);
    //wiringPiI2CWriteReg8(fd, i2cMode, data);
 
    return 1;
