@@ -628,6 +628,7 @@ uint8_t u8g_i2c_start(uint8_t sla) {
 	//if (twi_write_start())
 	{
 		//twi_write_byte(sla);
+		//u8g_i2c_send_byte(sla);
 		return 1;
 	}
 	//else
@@ -636,24 +637,22 @@ uint8_t u8g_i2c_start(uint8_t sla) {
 }
 
 void u8g_i2c_stop(void) {
-	digitalWrite(16, false);
+	//digitalWrite(16, false);
 	//twi_stop();
 }
 
 uint8_t u8g_i2c_send_byte(uint8_t data) {
-	twi_writeTo(I2C_SLA, &data, sizeof(data), false);
-	//twi_write_byte(data);
-   //wiringPiI2CWriteReg8(fd, i2cMode, data);
-
-   return 1;
+	if (!twi_writeTo(I2C_SLA, &data, sizeof(data), false))
+		return 0;
+	else
+		return 1;
 }
 
 uint8_t u8g_i2c_send_bytes(uint8_t* data, uint8_t len) {
-	twi_writeTo(I2C_SLA, data, len, false);
-	//twi_write_byte(data);
-   //wiringPiI2CWriteReg8(fd, i2cMode, data);
-
-   return 1;
+	if (!twi_writeTo(I2C_SLA, data, len, false))
+		return 0;
+	else
+		return 1;
 }
 
 
@@ -672,10 +671,6 @@ uint8_t u8g_i2c_wait(uint8_t mask, uint8_t pos)
 }
 
 uint8_t u8g_i2c_start(uint8_t sla)
-{
-  return 1;
-}
-uint8_t u8g_i2c_send_byte(uint8_t data)
 {
   return 1;
 }

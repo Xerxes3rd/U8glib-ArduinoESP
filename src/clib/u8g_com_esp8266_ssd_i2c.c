@@ -14,7 +14,7 @@
 // comm functions
 //
 #define I2C_SLA		0x3c
-#define I2C_CMD_MODE    0x80
+#define I2C_CMD_MODE    0x00
 #define I2C_DATA_MODE   0x40
 
 static uint8_t u8g_com_esp8266_ssd_start_sequence(u8g_t *u8g)
@@ -25,7 +25,7 @@ static uint8_t u8g_com_esp8266_ssd_start_sequence(u8g_t *u8g)
 
     /* setup bus, might be a repeated start */
     if ( u8g_i2c_start(I2C_SLA) == 0 )
-        //return 0;
+        return 0;
 	
     if ( u8g->pin_list[U8G_PI_A0_STATE] == 0 )
     {
