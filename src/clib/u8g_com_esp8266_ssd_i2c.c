@@ -14,28 +14,30 @@
 // comm functions
 //
 #define I2C_SLA		0x3c
-#define I2C_CMD_MODE    0x000
-#define I2C_DATA_MODE   0x040
+#define I2C_CMD_MODE    0x80
+#define I2C_DATA_MODE   0x40
 
 static uint8_t u8g_com_esp8266_ssd_start_sequence(u8g_t *u8g)
 {
-	return 0;
     /* are we requested to set the a0 state? */
     if ( u8g->pin_list[U8G_PI_SET_A0] == 0 )
         return 1;
 
     /* setup bus, might be a repeated start */
     if ( u8g_i2c_start(I2C_SLA) == 0 )
-        return 0;
+        //return 0;
+	
     if ( u8g->pin_list[U8G_PI_A0_STATE] == 0 )
     {
         // ignore return value -> tolerate missing ACK
-        if ( u8g_i2c_send_byte(I2C_CMD_MODE) == 0 )
+        //if ( u8g_i2c_send_byte(I2C_CMD_MODE) == 0 )
+		u8g_i2c_send_byte(I2C_CMD_MODE);
             ; //return 0;
     }
     else
     {
-        if ( u8g_i2c_send_byte(I2C_DATA_MODE) == 0 )
+        //if ( u8g_i2c_send_byte(I2C_DATA_MODE) == 0 )
+		u8g_i2c_send_byte(I2C_DATA_MODE);
 			; //return 0;
     }
 
@@ -109,7 +111,6 @@ uint8_t u8g_com_esp8266_ssd_i2c_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, voi
     case U8G_COM_MSG_INIT:
         // we assume that the i2c bus was already initialized
         u8g_i2c_init(u8g->pin_list[U8G_PI_I2C_OPTION]);
-
         break;
     
     case U8G_COM_MSG_STOP:
@@ -142,6 +143,7 @@ uint8_t u8g_com_esp8266_ssd_i2c_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, voi
         if ( u8g_i2c_send_byte( arg_val) == 0 )
             ; //return u8g_i2c_stop(), 0;
         // u8g_i2c_stop( ESP_I2C_ID );
+		//u8g_i2c_stop();
         break;
     
     case U8G_COM_MSG_WRITE_SEQ:
@@ -151,6 +153,7 @@ uint8_t u8g_com_esp8266_ssd_i2c_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, voi
             return u8g_i2c_stop(), 0;
         {
             register uint8_t *ptr = arg_ptr;
+			/*
             while( arg_val > 0 )
             {
                 // ignore return value -> tolerate missing ACK
@@ -158,7 +161,10 @@ uint8_t u8g_com_esp8266_ssd_i2c_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, voi
                     ; //return u8g_i2c_stop(), 0;
                 arg_val--;
             }
+			*/
+			u8g_i2c_send_bytes((uint8_t*) arg_ptr, arg_val);
         }
+		//u8g_i2c_stop();
         // u8g_i2c_stop( ESP_I2C_ID );
         break;
 
