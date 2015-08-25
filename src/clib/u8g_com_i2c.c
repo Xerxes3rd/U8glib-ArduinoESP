@@ -642,14 +642,14 @@ void u8g_i2c_stop(void) {
 }
 
 uint8_t u8g_i2c_send_byte(uint8_t data) {
-	if (!twi_writeTo(I2C_SLA, &data, sizeof(data), false))
+	if (twi_writeTo(I2C_SLA, &data, sizeof(data), true))
 		return 0;
 	else
 		return 1;
 }
 
 uint8_t u8g_i2c_send_bytes(uint8_t* data, uint8_t len) {
-	if (!twi_writeTo(I2C_SLA, data, len, false))
+	if (twi_writeTo(I2C_SLA, data, len, true))
 		return 0;
 	else
 		return 1;

@@ -153,7 +153,7 @@ uint8_t u8g_com_esp8266_ssd_i2c_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, voi
             return u8g_i2c_stop(), 0;
         {
             register uint8_t *ptr = arg_ptr;
-			/*
+			
             while( arg_val > 0 )
             {
                 // ignore return value -> tolerate missing ACK
@@ -161,8 +161,8 @@ uint8_t u8g_com_esp8266_ssd_i2c_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, voi
                     ; //return u8g_i2c_stop(), 0;
                 arg_val--;
             }
-			*/
-			u8g_i2c_send_bytes((uint8_t*) arg_ptr, arg_val);
+			
+			//u8g_i2c_send_bytes((uint8_t*) arg_ptr, arg_val);
         }
 		//u8g_i2c_stop();
         // u8g_i2c_stop( ESP_I2C_ID );
