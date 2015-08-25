@@ -7,4 +7,4 @@ To use this, replace platform.txt in C:\Users\\(YOUR_USERNAME)\AppData\Roaming\A
 
 In order to use the library in sketches, you'll need to create the u8g object using the "new" keyword within your code- creating it on the stack will not work (all of the existing u8g examples create it on the stack).
 
-If you want to improve support, look for the preprocessor directive <pre>__XTENSA__</pre> in the source files- that's how the preprocessor identifies the ESP8266 hardware.
+If you want to improve support, look for the preprocessor directive \_\_XTENSA\_\_ in the source files- that's how the preprocessor identifies the ESP8266 hardware.
